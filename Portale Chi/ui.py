@@ -8,9 +8,6 @@ import config
 import core
 import utils
 
-COLUMNS = ("Data", "Ora", "Aula", "Tipo d'esame")
-FACOLTA = core.load_facolta()
-
 class Ui(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -18,6 +15,7 @@ class Ui(tk.Tk):
         self.geometry("820x520")
         self.resizable(False, False)
 
+        self.facolta = core.load_facolta()
         self.options = {}
         self.data = None
         self.url_corsi = config.URL_CORSI
@@ -44,7 +42,7 @@ class Ui(tk.Tk):
         ttk.Label(self.main, text="Facoltà", font=("Segoe UI", 11)).grid(
             row=0, column=0, sticky="w", pady=(4, 0)
         )
-        self.fac_entry = EntrySuggestion(self.main, values=FACOLTA)
+        self.fac_entry = EntrySuggestion(self.main, values=self.facolta)
         self.fac_entry.grid(row=1, column=0, columnspan=2, sticky="ew", padx=(0, 8))
 
         self.btn_avvia = ttk.Button(self.main, text="Avvia", command=self.on_avvia)
@@ -66,8 +64,9 @@ class Ui(tk.Tk):
         self._set_button_mostra(False)
 
     def _build_table(self):
-        self.tree = ttk.Treeview(self.main, columns=COLUMNS, show="headings", height=8)
-        for c in COLUMNS:
+        columns = ("Data", "Ora", "Aula", "Tipo d'esame")
+        self.tree = ttk.Treeview(self.main, columns=columns, show="headings", height=8)
+        for c in columns:
             self.tree.heading(c, text=c)
             self.tree.column(c, width=130, anchor="center")
         self.tree.grid(row=6, column=0, columnspan=3, sticky="nsew", pady=(28, 0))
@@ -116,7 +115,7 @@ class Ui(tk.Tk):
         if not fac_key:
             messagebox.showwarning("Attenzione", "Campo vuoto, inserisci una facoltà!")
             return
-        if fac_key not in FACOLTA:
+        if fac_key not in self.facolta:
             messagebox.showwarning("Attenzione", "La facoltà inserita non è valida!")
             return
 
@@ -128,7 +127,7 @@ class Ui(tk.Tk):
         threading.Thread(target=self._launch_worker, args=(fac_key,), daemon=True).start()
 
     def _launch_worker(self, fac_key):
-        payload = core.build_payload(fac_key, self.today, self.ayear_later, FACOLTA)
+        payload = core.build_payload(fac_key, self.today, self.ayear_later, self.facolta)
         req = requests.post(self.url_corsi, data=payload)
         data_local = json.loads(req.text)
         opzioni_local = core.get_corsi(data_local)

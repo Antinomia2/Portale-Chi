@@ -2,6 +2,13 @@ import json
 import requests
 import config
 
+def connected():
+    try:
+        requests.head("https://gestioneorari.didattica.unimib.it", timeout=3)
+        return True
+    except requests.RequestException:
+        return False
+
 def load_facolta():
     text = requests.get(config.URL_FACOLTA).text
     raw = text.split("var esami_cdl = ")[1].split(";\nvar elenco_scuole = ")[0]
