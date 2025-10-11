@@ -1,8 +1,8 @@
 # Portale-Chi
 
-As a UniMiB student, have you ever felt sick and tired of searching for exam dates<br>
-on the official website due to its complexity and slowness? Then fear not!<br>
-Portale-Chi is here to help you get just the bare minimum information in only a few clicks<br>
+The official UniMiB website used to search for exam dates is slow, complex, and buggy.<br>
+I therefore created this script to help you get just the essential information<br>
+about available exam dates within 1 year, in just 2 clicks.<br>
 <br>
 ![Demo](https://raw.githubusercontent.com/Antinomia2/Portale-Chi/main/demo.gif)
 
@@ -12,7 +12,7 @@ This project is provided **for educational and research purposes only**.
 The author does **not take any responsibility** for how this code is used.
 **This script only scrapes publicly available data.**  
 **Do not spam, overload, or flood the target server with requests.**
-If you cause issues, bans, or any legal trouble, **that’s entirely on you.**
+If you cause issues or any legal trouble, **that’s entirely on you.**
 
 ## Dependencies
 
@@ -26,4 +26,4 @@ If you cause issues, bans, or any legal trouble, **that’s entirely on you.**
   $ python main.py
   ```
 
-Or just grab the executable from the Releases section
+Or just grab the executable from the Releases section (works on Windows)
